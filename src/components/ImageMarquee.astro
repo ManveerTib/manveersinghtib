@@ -1,0 +1,208 @@
+---
+/**
+ * ImageMarquee: two rows of photos the reader steps through with arrow buttons.
+ * No autoplay: the rows only move when someone clicks (or swipes/drag-scrolls).
+ *
+ * Swap the image URLs below for local files (e.g. /marquee/photo1.jpg in /public)
+ * whenever you want to self-host instead of postimg.cc.
+ */
+
+const rowOne = [
+	"https://i.postimg.cc/c4Q3mwgZ/IMG-0498-(2).jpg",
+	"https://i.postimg.cc/13BqxSrd/IMG-0501-(2).jpg",
+	"https://i.postimg.cc/hG3Qj0wV/IMG-0509-(2).jpg",
+	"https://i.postimg.cc/V6rrbCPY/IMG-0505-(2).jpg",
+	"https://i.postimg.cc/ZYNvbpLH/IMG-0688-(4).avif",
+	"https://i.postimg.cc/PrzLZH9Z/IMG-0689-(2).avif",
+	"https://i.postimg.cc/cJ66VnHR/IMG-0690-(2).avif",
+	"https://i.postimg.cc/HxynL1bL/IMG-20251230-154444086-HDR-(4).jpg",
+	"https://i.postimg.cc/YS4qXBnd/Image1.jpg",
+	"https://i.postimg.cc/T1cRyd12/Image2.jpg",
+	"https://i.postimg.cc/W3jCdMk9/GSP-4042-(1).jpg",
+	"https://i.postimg.cc/RV8Y7rt4/GSP-4134-(1).jpg",
+	"https://i.postimg.cc/R0xbYcX5/GSP-4188-(1).jpg",
+	"https://i.postimg.cc/50xK4bhF/GSP-4197-(1).jpg",
+	"https://i.postimg.cc/nrrdmTcx/GSP-4198-(1).jpg",
+	"https://i.postimg.cc/mZpp4x8H/GSP-4314-(1).jpg",
+	"https://i.postimg.cc/cLwFfvZg/GSP-4464-(4).jpg",
+	"https://i.postimg.cc/mr48jTgb/GSP-4474-(1).jpg",
+	"https://i.postimg.cc/KzvQXQTV/GSP-4577-(1).jpg",
+	"https://i.postimg.cc/qqNLqRjx/GSP-4596-(1).jpg",
+	"https://i.postimg.cc/sfLm8Ygc/GSP-4654-(1).jpg",
+];
+
+const rowTwo = [
+	"https://i.postimg.cc/dVPBQJdq/GSP-4744-(1).jpg",
+	"https://i.postimg.cc/cLRcrPMb/GSP-4878-(1).jpg",
+	"https://i.postimg.cc/zfqFWpxv/GSP-4909-(1).jpg",
+	"https://i.postimg.cc/j556320T/GSP-4934-(1).jpg",
+	"https://i.postimg.cc/76W3F4w2/GSP-4940-(1).jpg",
+	"https://i.postimg.cc/bdXQvRZV/Screenshot-2026-02-16-at-11-59-42-AM.png",
+	"https://i.postimg.cc/RZBDs7PS/Image3.png",
+	"https://i.postimg.cc/TP2HGRMJ/Image4.png",
+	"https://i.postimg.cc/0jSVZjDz/IMG-0774.jpg",
+	"https://i.postimg.cc/gjhg4j8L/IMG-0843.jpg",
+	"https://i.postimg.cc/5yzspyL6/IMG-0874.jpg",
+	"https://i.postimg.cc/C58cJ5kZ/IMG-6335.jpg",
+	"https://i.postimg.cc/mk9mVkCr/PNG-image.jpg",
+	"https://i.postimg.cc/jjkvbP4k/IMG-6792.jpg",
+	"https://i.postimg.cc/VNN4pDnx/IMG-6793.jpg",
+	"https://i.postimg.cc/q77QSj2T/IMG-6795.jpg",
+	"https://i.postimg.cc/zBb7XvdP/1stplace.jpg",
+	"https://i.postimg.cc/LXYD65yD/e1f2e2d1-9dea-49bf-aeb7-bd8c1e5214ed.jpg",
+	"https://i.postimg.cc/85J4Pcyw/IMG-9363.jpg",
+];
+
+const widths = [200, 180, 160];
+---
+
+<div class="marquee" data-marquee>
+	<div class="marquee-row" data-row>
+		{
+			rowOne.map((src, i) => (
+				<figure class="marquee-card" style={`width:${widths[i % 3]}px`}>
+					<img loading="lazy" decoding="async" src={src} alt="" width={widths[i % 3]} height="130" />
+				</figure>
+			))
+		}
+	</div>
+	<div class="marquee-row" data-row>
+		{
+			rowTwo.map((src, i) => (
+				<figure class="marquee-card" style={`width:${widths[i % 3]}px`}>
+					<img loading="lazy" decoding="async" src={src} alt="" width={widths[i % 3]} height="130" />
+				</figure>
+			))
+		}
+	</div>
+	<div class="marquee-controls">
+		<button class="marquee-btn" type="button" data-prev aria-label="Scroll photos left">
+			<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+				<path d="M15 18l-6-6 6-6"></path>
+			</svg>
+		</button>
+		<button class="marquee-btn" type="button" data-next aria-label="Scroll photos right">
+			<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+				<path d="M9 18l6-6-6-6"></path>
+			</svg>
+		</button>
+	</div>
+</div>
+
+<style>
+	.marquee {
+		display: flex;
+		flex-direction: column;
+		gap: 0.875rem;
+		width: 100%;
+		max-width: 100%;
+		overflow: hidden;
+	}
+	.marquee-row {
+		display: flex;
+		gap: 0.875rem;
+		width: 100%;
+		max-width: 100%;
+		min-width: 0;
+		overflow-x: auto;
+		scroll-behavior: smooth;
+		scrollbar-width: none;
+		-ms-overflow-style: none;
+		overscroll-behavior-x: contain;
+	}
+	.marquee-row::-webkit-scrollbar {
+		display: none;
+	}
+	.marquee-card {
+		height: 130px;
+		flex-shrink: 0;
+		margin: 0;
+		overflow: hidden;
+	}
+	.marquee-card img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		transition: transform 0.3s ease;
+	}
+	.marquee-card:hover img {
+		transform: scale(1.06);
+	}
+	.marquee-controls {
+		display: flex;
+		justify-content: flex-end;
+		gap: 0.5rem;
+		margin-top: 0.25rem;
+	}
+	.marquee-btn {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 2rem;
+		height: 2rem;
+		border-radius: 9999px;
+		border: 1px solid var(--color-accent-2);
+		background: transparent;
+		color: var(--color-global-text);
+		cursor: pointer;
+		transition:
+			opacity 0.2s ease,
+			background 0.2s ease;
+	}
+	.marquee-btn:hover:not(:disabled) {
+		background: var(--color-accent-2);
+	}
+	.marquee-btn:disabled {
+		opacity: 0.3;
+		cursor: default;
+	}
+	@media (max-width: 640px) {
+		.marquee-card {
+			height: 100px;
+		}
+	}
+	@media (prefers-reduced-motion: reduce) {
+		.marquee-row {
+			scroll-behavior: auto;
+		}
+	}
+</style>
+
+<script>
+	function initMarquee() {
+		for (const root of document.querySelectorAll<HTMLElement>("[data-marquee]")) {
+			if (root.dataset.init) continue;
+			root.dataset.init = "true";
+
+			const rows = Array.from(root.querySelectorAll<HTMLElement>("[data-row]"));
+			const prev = root.querySelector<HTMLButtonElement>("[data-prev]");
+			const next = root.querySelector<HTMLButtonElement>("[data-next]");
+			if (!rows.length || !prev || !next) continue;
+
+			// Step by most of a row's visible width, so clicks advance a full "page" of photos
+			const step = () => Math.max(160, rows[0]!.clientWidth * 0.8);
+
+			const scrollAll = (dir: number) => {
+				for (const row of rows) row.scrollBy({ left: dir * step(), behavior: "smooth" });
+			};
+
+			prev.addEventListener("click", () => scrollAll(-1));
+			next.addEventListener("click", () => scrollAll(1));
+
+			// Grey out a button once every row has hit that end
+			const sync = () => {
+				const atStart = rows.every((r) => r.scrollLeft <= 1);
+				const atEnd = rows.every((r) => r.scrollLeft >= r.scrollWidth - r.clientWidth - 1);
+				prev.disabled = atStart;
+				next.disabled = atEnd;
+			};
+
+			for (const row of rows) row.addEventListener("scroll", sync, { passive: true });
+			window.addEventListener("resize", sync, { passive: true });
+			sync();
+		}
+	}
+
+	initMarquee();
+	document.addEventListener("astro:page-load", initMarquee);
+</script>

@@ -1,0 +1,175 @@
+---
+import PageLayout from "@/layouts/Base.astro";
+import VideoEmbed from "@/components/VideoEmbed.astro";
+
+const meta = {
+	description: "The AI platforms and biophotonics curriculum built from my ISM research.",
+	title: "Projects",
+};
+
+type Project = {
+	title: string;
+	category: string;
+	description: string;
+	tags: string[];
+	link?: string;
+	linkLabel?: string;
+};
+
+const projects: Project[] = [
+	{
+		title: "OncoScan AI",
+		category: "Medical Imaging",
+		description:
+			"A DenseNet121 chest X-ray classifier trained on 127,000 images from the NIH and CheXpert datasets. Returns 14 simultaneous disease probabilities in a single inference pass, built with resource-limited clinics in mind.",
+		tags: ["PyTorch", "CNN", "Pandas"],
+		link: "https://oncoscanai.netlify.app",
+		linkLabel: "Open OncoScan AI",
+	},
+	{
+		title: "PDT Simulator",
+		category: "Research Tool",
+		description:
+			"An interactive photodynamic therapy simulator using photon diffusion approximation with dipole source modeling, wavelength-corrected optical properties, and photobleaching kinetics, across 9 tissue types and 7 photosensitizers. Paired with an AI Dosimetry Model that returns optimized light delivery parameters.",
+		tags: ["Python", "React"],
+	},
+];
+
+/**
+ * Biophotonics Masterclass.
+ * Paste each video's YouTube ID into `id` (the part after v= in the URL) and it
+ * will render an embedded player. Leave `id` out and the card shows as upcoming.
+ */
+type Lesson = { title: string; description: string; id?: string };
+
+const lessons: Lesson[] = [
+	{
+		title: "Light as a Wave",
+		description:
+			"Electromagnetic radiation, wavelength, frequency, and why the wavelength of light determines everything about how it behaves.",
+		id: "qdTPtsRgZ54",
+	},
+	{
+		title: "The Electromagnetic Spectrum",
+		description:
+			"How visible light fits within the broader spectrum and why specific wavelengths are chosen for PDT.",
+		id: "dUhCFwIGOcA",
+	},
+	{
+		title: "Photons & Energy",
+		description:
+			"Quantum nature of light, photon energy, and how photons interact with biological molecules.",
+		id: "r-9w-odvVDQ",
+	},
+	{
+		title: "Light & Biological Tissue",
+		description: "Absorption, scattering, and penetration depth of light in tissue.",
+		id: "GJv0t7Re4yk",
+	},
+	{
+		title: "Photosensitizers",
+		description:
+			"What photosensitizers are, how they accumulate in tumor tissue, and the chemistry of photoactivation.",
+		id: "wEDcB6WAcGY",
+	},
+	{
+		title: "Reactive Oxygen Species",
+		description:
+			"How PDT generates ROS, Type I and Type II photochemical reactions, and cellular damage mechanisms.",
+		id: "0E0DPXbNwvE",
+	},
+	{
+		title: "PDT vs. Cancer Cells",
+		description:
+			"Does PDT kill cancer cells? Examining apoptosis, necrosis, and autophagy pathways.",
+		id: "vtk9y8Q8Db8",
+	},
+	{
+		title: "Risks & Side Effects",
+		description:
+			"What happens to healthy cells exposed to PDT? Normal tissue effects and safety margins.",
+		id: "NUf94aFJWQk",
+	},
+	{
+		title: "Dosimetry & AI",
+		description:
+			"How light dose is calculated, why it matters clinically, and how my AI Dosimetry Model automates this.",
+		id: "P13nVAfjh28",
+	},
+	{
+		title: "Clinical Applications & Future",
+		description:
+			"Real patient cases from Dr. Bagnato's lab, FDA-approved PDT treatments, and the road ahead.",
+		id: "2sk4fTNBvJ0",
+	},
+	{
+		// TODO: rename. I didn't have a title for video 11, so this is a placeholder.
+		title: "The Projects & Research Questions",
+		description:
+			"A walkthrough of the three builds (OncoScan AI, the PDT Simulator, and the AI Dosimetry Model) and the three research questions behind the ISM manuscript.",
+		id: "CQmxRLNhg7c",
+	},
+];
+---
+
+<PageLayout meta={meta}>
+	<h1 class="title mb-4">Projects</h1>
+	<p class="prose prose-sm prose-cactus mb-16 max-w-none">
+		The work that came out of my ISM research into photodynamic therapy: the chest X-ray
+		classifier, the treatment simulator, and the biophotonics curriculum built alongside the
+		manuscript.
+	</p>
+
+	<section class="mb-16">
+		<h2 class="title mb-6 text-xl">Platforms</h2>
+		<ul class="grid gap-x-6 gap-y-10 sm:grid-cols-2 md:grid-cols-3" role="list">
+			{
+				projects.map((project) => (
+					<li class="grid content-start gap-2">
+						<h3 class="text-accent text-lg font-semibold">{project.title}</h3>
+						<span class="text-muted text-xs">{project.category}</span>
+						<p class="prose prose-sm prose-cactus max-w-none">{project.description}</p>
+						<ul class="mt-1 flex flex-wrap gap-2" role="list">
+							{project.tags.map((tag) => (
+								<li class="bg-accent-2/20 rounded px-2 py-0.5 text-xs">{tag}</li>
+							))}
+						</ul>
+						{project.link && (
+							<a class="cactus-link mt-1 text-sm" href={project.link} rel="noreferrer" target="_blank">
+								{project.linkLabel} →
+							</a>
+						)}
+					</li>
+				))
+			}
+		</ul>
+	</section>
+
+	<section>
+		<h2 class="title mb-2 text-xl">Biophotonics Masterclass</h2>
+		<p class="prose prose-sm prose-cactus mb-8 max-w-none">
+			A video curriculum covering everything I learned across the ISM year, from what light
+			actually is, through tissue interaction, to clinical PDT dosimetry and the three research
+			questions behind my manuscript.
+		</p>
+		<ul class="grid gap-x-6 gap-y-10 sm:grid-cols-2 md:grid-cols-3" role="list">
+			{
+				lessons.map((lesson, i) => (
+					<li class="grid content-start gap-2">
+						{lesson.id ? (
+							<VideoEmbed id={lesson.id} title={lesson.title} />
+						) : (
+							<div class="bg-accent-2/20 text-muted flex aspect-video items-center justify-center rounded-xl text-xs">
+								Coming soon
+							</div>
+						)}
+						<h3 class="text-sm font-semibold">
+							<span class="text-muted">{String(i + 1).padStart(2, "0")}.</span> {lesson.title}
+						</h3>
+						<p class="text-muted text-xs leading-relaxed">{lesson.description}</p>
+					</li>
+				))
+			}
+		</ul>
+	</section>
+</PageLayout>

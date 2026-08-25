@@ -1,0 +1,68 @@
+---
+import PageLayout from "@/layouts/Base.astro";
+import VideoEmbed from "@/components/VideoEmbed.astro";
+
+const meta = {
+	description:
+		"ISM research into photodynamic therapy, my mentor, and the work that came out of it.",
+	title: "About",
+};
+---
+
+<PageLayout meta={meta}>
+	<h1 class="title mb-12">About</h1>
+	<div class="prose prose-sm prose-cactus max-w-none">
+		<p>
+			I’m Manveer Singh Tib, a junior at Wakeland High School in Frisco, TX. I’m aiming toward
+			biomedical engineering, and along the way I’ve picked up chess (1700 ELO), robotics, and a
+			habit of building AI tools for problems I think deserve more attention than they get.
+		</p>
+		<p>
+			The thread running through most of what I build is access: the tools to diagnose and treat
+			disease usually exist somewhere, but they don’t always reach the people who need them. That’s
+			the problem I keep coming back to, in my ISM research and in the platforms I build on the
+			side.
+		</p>
+
+		<h2>Portfolio Introduction</h2>
+		<VideoEmbed id="sXygqC4kCRs" title="Portfolio Introduction, Manveer Singh Tib" />
+
+		<h2>Independent Study &#38; Mentorship (ISM)</h2>
+		<p>
+			ISM is a Frisco ISD program that pairs students with a mentor in their field of interest for a
+			year of original research and product development. Alongside a research portfolio of
+			observations, interviews, and professional contacts, the program pushes you to build real
+			goal-setting, communication, and public speaking skills, ending in a formal presentation of
+			your original work.
+		</p>
+		<p>
+			My ISM research is on <strong>photodynamic therapy (PDT)</strong>, light-activated cancer
+			treatment, under Dr. Vanderlei Bagnato at Texas A&#38;M. That research became a 14-page
+			manuscript, presented at the UNT Frisco ISM Showcase and currently pending publication, plus a
+			handful of AI tools that grew out of it. You can read about those on the{" "}
+			<a href="/projects/">projects page</a>, and follow the week-by-week process on the{" "}
+			<a href="/posts/">journal</a>.
+		</p>
+
+		<h2>Mentor: Dr. Vanderlei Salvador Bagnato</h2>
+		<p>
+			Dr. Bagnato is a professor of physics at Texas A&#38;M University and a pioneer in biophotonics
+			and photodynamic therapy, with a joint appointment at the University of São Paulo. He’s
+			published 500+ peer-reviewed papers over a 40-year research career, and his work on PDT
+			dosimetry has directly shaped clinical protocols used in cancer therapy today. He’s been
+			generous enough to mentor my research into that work over the past year.
+		</p>
+
+		<h2>Skills</h2>
+		<p>Python · PyTorch · React · FastAPI · Pandas · Machine Learning · CNNs · NLP · OCR</p>
+
+		<h2>Get in touch</h2>
+		<p>
+			I’m open to research collaborations, healthcare-AI internships, and conversations about rare
+			disease diagnostics and access. Reach me on
+			<a class="cactus-link" href="https://linkedin.com/in/manveer-singh-tib" rel="noreferrer" target="_blank"
+				>LinkedIn</a
+			> or by email. Links are on the home page.
+		</p>
+	</div>
+</PageLayout>

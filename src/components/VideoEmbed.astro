@@ -1,0 +1,118 @@
+---
+/**
+ * VideoEmbed — click-to-load YouTube facade.
+ * Shows the thumbnail until clicked, then swaps in the real iframe. This keeps
+ * YouTube's scripts/cookies off the page until someone actually wants to watch,
+ * so the About page stays fast.
+ */
+interface Props {
+	/** YouTube video ID (the part after v= in the URL) */
+	id: string;
+	/** Accessible title for the video */
+	title: string;
+}
+
+const { id, title } = Astro.props;
+---
+
+<div class="video-embed" data-video-id={id}>
+	<button class="video-trigger" type="button" aria-label={`Play video: ${title}`}>
+		<img
+			alt=""
+			class="video-thumb"
+			decoding="async"
+			height="360"
+			loading="lazy"
+			src={`https://i.ytimg.com/vi/${id}/hqdefault.jpg`}
+			width="480"
+		/>
+		<span class="video-play" aria-hidden="true">
+			<svg viewBox="0 0 68 48" width="68" height="48">
+				<path
+					d="M66.5 7.7c-.8-2.9-2.5-5.4-5.4-6.2C55.8.1 34 0 34 0S12.2.1 6.9 1.5C4 2.3 2.3 4.8 1.5 7.7 0 13 0 24 0 24s0 11 1.5 16.3c.8 2.9 2.5 5.4 5.4 6.2C12.2 47.9 34 48 34 48s21.8-.1 27.1-1.5c2.9-.8 4.6-3.3 5.4-6.2C68 35 68 24 68 24s0-11-1.5-16.3z"
+					fill="#f00"></path>
+				<path d="M45 24 27 14v20" fill="#fff"></path>
+			</svg>
+		</span>
+	</button>
+</div>
+
+<style>
+	.video-embed {
+		position: relative;
+		width: 100%;
+		aspect-ratio: 16 / 9;
+		border-radius: 12px;
+		overflow: hidden;
+		background: #000;
+	}
+	.video-trigger {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		padding: 0;
+		border: 0;
+		cursor: pointer;
+		background: #000;
+		display: block;
+	}
+	.video-thumb {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		/* hqdefault has letterbox bars; scale slightly to crop them out */
+		transform: scale(1.35);
+		transition: opacity 0.2s ease;
+	}
+	.video-trigger:hover .video-thumb {
+		opacity: 0.85;
+	}
+	.video-play {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		opacity: 0.85;
+		transition: opacity 0.2s ease;
+		pointer-events: none;
+	}
+	.video-trigger:hover .video-play {
+		opacity: 1;
+	}
+	.video-embed iframe {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		border: 0;
+	}
+</style>
+
+<script>
+	function initVideoEmbeds() {
+		for (const el of document.querySelectorAll<HTMLElement>(".video-embed")) {
+			if (el.dataset.init) continue;
+			el.dataset.init = "true";
+			const btn = el.querySelector("button");
+			btn?.addEventListener("click", () => {
+				const id = el.dataset.videoId;
+				if (!id) return;
+				const iframe = document.createElement("iframe");
+				iframe.src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0&modestbranding=1&color=white`;
+				iframe.allow =
+					"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
+				iframe.allowFullscreen = true;
+				iframe.title = btn.getAttribute("aria-label")?.replace("Play video: ", "") ?? "";
+				// Sized inline: this element is created at runtime, so Astro's scoped
+				// component styles don't apply to it.
+				iframe.style.cssText =
+					"position:absolute;top:0;left:0;width:100%;height:100%;border:0;display:block;";
+				el.replaceChildren(iframe);
+			});
+		}
+	}
+
+	initVideoEmbeds();
+	document.addEventListener("astro:page-load", initVideoEmbeds);
+</script>
